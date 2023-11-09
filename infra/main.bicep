@@ -75,12 +75,23 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
         ]
       }
     }
-    template: {
-      revisionSuffix: currentCommitId
-      containers:[
+    properties: {
+        environmentId: containerAppsEnvironment.id
+        workloadProfileName: 'Consumption'
+        imageRegistryCredentials: [
         {
-          // in the real deployment the image would reference the actual commit id tag, for example:
-          // image: 'k8seteste2e.azurecr.io/e2e-apps/test-app:${currentCommitId}'
+          server: 'acrfornode.azurecr.io'
+          username: '1951a72c-84fd-44f8-82e3-75142ac1974b'
+          password: '4ic8Q~hSQQW9c1AzNEO0NLA02e~5KoOCPNGhMcRN'
+        }
+     ]
+     configuration: {
+       // ...
+     } 
+     template: {
+       revisionSuffix: currentCommitId
+       containers:[
+         {
           image: 'acrfornode.azurecr.io/nodeapp2:latest'
           name: appName
           resources: {
@@ -91,17 +102,11 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
             {
               name: 'REVISION_COMMIT_ID'
               value: currentCommitId
-            }
-          ]
-        }
-      ]
-       imageRegistryCredentials: [
-          {
-            server: 'acrfornode.azurecr.io'
-            username: '1951a72c-84fd-44f8-82e3-75142ac1974b'
-            password: '4ic8Q~hSQQW9c1AzNEO0NLA02e~5KoOCPNGhMcRN'
-        }
-      ]
+             }
+           ]
+         }
+       ]
+      }
      }
     }
   }
