@@ -81,7 +81,7 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
         {
           // in the real deployment the image would reference the actual commit id tag, for example:
           // image: 'k8seteste2e.azurecr.io/e2e-apps/test-app:${currentCommitId}'
-          image: 'k8seteste2e.azurecr.io/e2e-apps/test-app:latest'
+          image: 'acrfornode.azurecr.io/nodeapp2:latest'
           name: appName
           resources: {
             cpu: json('0.5')
@@ -95,6 +95,14 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
           ]
         }
       ]
+       imageRegistryCredentials: [
+          {
+            server: 'acrfornode.azurecr.io'
+            username: '1951a72c-84fd-44f8-82e3-75142ac1974b'
+            password: '4ic8Q~hSQQW9c1AzNEO0NLA02e~5KoOCPNGhMcRN'
+        }
+      ]
+     }
     }
   }
 }
