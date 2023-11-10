@@ -32,6 +32,7 @@ jobs:
       id: deploy
       uses: azure/arm-deploy@v1
       with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: infra/main.bicep
         deploymentName: deploy-${{ steps.params.outputs.commit_id }}
