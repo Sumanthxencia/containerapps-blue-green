@@ -26,12 +26,6 @@ jobs:
         APP_NAME: ${{ secrets.AZURE_APP_NAME }}
       run: ./infra/set-params.sh
       shell: bash
-    #login into ACR
-    - uses: azure/docker-login@v1
-      with:
-        login-server: acrfornode.azurecr.io
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }} 
 
     # Deploy current commit id to a non-production label so it can be tested
     - name: Deploy current release
@@ -45,6 +39,10 @@ jobs:
         parameters: 'appName=${{ secrets.AZURE_APP_NAME }} blueCommitId=${{ steps.params.outputs.blue_commit_id }} greenCommitId=${{ steps.params.outputs.green_commit_id }} latestCommitId=${{ steps.params.outputs.commit_id }} productionLabel=${{ steps.params.outputs.cur_prod_label }} containerAppsEnvironmentName=${{ secrets.AZURE_ENVIRONMENT_NAME }}'
         deploymentMode: Incremental
         failOnStdErr: true
+      env:
+       ARM_CLIENT_ID: ${{ secrets.ACR_CLIENT_ID }}
+       ARM_CLIENT_SECRET: ${{ secrets.ACR_CLIENT_SECRET }}
+       ARM_TENANT_ID: ${{ secrets.ACR_TENANT_ID }}   
 
     # Deactivate the revision that is not green or blue anymore
     - name: Deactivate unused revision
