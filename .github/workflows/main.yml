@@ -26,6 +26,13 @@ jobs:
         APP_NAME: ${{ secrets.AZURE_APP_NAME }}
       run: ./infra/set-params.sh
       shell: bash
+    #login into ACR
+    - name: Acr login
+    - uses: azure/docker-login@v1
+      with:
+        login-server: acrfornode.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }} 
 
     # Deploy current commit id to a non-production label so it can be tested
     - name: Deploy current release
