@@ -27,7 +27,6 @@ jobs:
       run: ./infra/set-params.sh
       shell: bash
     #login into ACR
-    - name: Acr login
     - uses: azure/docker-login@v1
       with:
         login-server: acrfornode.azurecr.io
