@@ -15,6 +15,9 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Login to ACR
+      run: az acr login --name ${{ secrets.ACR_NAME }}
+      shell: bash 
 
     # Set params based on the existing app deployment
     - name: Set params
@@ -33,9 +36,6 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        registry_login_server: acrfornode.azurecr.io
-        registry_username: ${{ secrets.REGISTRY_USERNAME }}
-        registry_password: ${{ secrets.REGISTRY_PASSWORD }}
         template: infra/main.bicep
         deploymentName: deploy-${{ steps.params.outputs.commit_id }}
         parameters: 'appName=${{ secrets.AZURE_APP_NAME }} blueCommitId=${{ steps.params.outputs.blue_commit_id }} greenCommitId=${{ steps.params.outputs.green_commit_id }} latestCommitId=${{ steps.params.outputs.commit_id }} productionLabel=${{ steps.params.outputs.cur_prod_label }} containerAppsEnvironmentName=${{ secrets.AZURE_ENVIRONMENT_NAME }}'
