@@ -35,6 +35,9 @@ param latestCommitId string = ''
 @description('Name of the label that gets 100% of the traffic')
 param productionLabel string = 'blue'
 
+@description('ACR token')
+param acrToken string
+
 var currentCommitId = !empty(latestCommitId) ? latestCommitId : blueCommitId
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2022-03-01' existing = {
@@ -95,6 +98,10 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
             {
               name: 'REVISION_COMMIT_ID'
               value: currentCommitId
+            },
+            {
+              name: 'acrbgdtoken'
+              value: acrToken
             }
           ]
         }
