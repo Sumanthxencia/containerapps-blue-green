@@ -11,6 +11,10 @@ param appName string
 @description('Container environment name')
 param containerAppsEnvironmentName string
 
+@maxLength(64)
+@description('GitHub SHA')
+param githubSHA string
+
 @minLength(1)
 @maxLength(64)
 @description('CommitId for blue revision')
@@ -81,7 +85,7 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
         {
           // in the real deployment the image would reference the actual commit id tag, for example:
           // image: 'k8seteste2e.azurecr.io/e2e-apps/test-app:${currentCommitId}'
-          image: 'acrfornode.azurecr.io/nodeapp2:${currentcommitId}'
+          image: 'acrfornode.azurecr.io/nodeapp2:${githubSHA}'
           name: appName
           resources: {
             cpu: json('0.5')
