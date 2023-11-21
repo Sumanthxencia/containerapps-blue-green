@@ -81,7 +81,7 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
         {
           // in the real deployment the image would reference the actual commit id tag, for example:
           // image: 'k8seteste2e.azurecr.io/e2e-apps/test-app:${currentCommitId}'
-          image: 'acrfornode.azurecr.io/nodeapp2:latest'
+          image: 'acrfornode.azurecr.io/nodeapp2:${{ github.sha }}'
           name: appName
           resources: {
             cpu: json('0.5')
