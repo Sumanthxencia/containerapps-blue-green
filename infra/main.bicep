@@ -98,7 +98,7 @@ resource blueGreenDeploymentApp 'Microsoft.App/containerApps@2022-11-01-preview'
             {
               name: 'REVISION_COMMIT_ID'
               value: currentCommitId
-            },
+            }
             {
               name: 'acrbgdtoken'
               value: acrToken
